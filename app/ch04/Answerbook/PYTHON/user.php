@@ -1,6 +1,6 @@
 <?php
 
-namespace AnswerBook\PHP;
+namespace AnswerBook\PYTHON;
 
 class User
 {
