@@ -40,11 +40,59 @@ object(DateTime)#1 (3) {
   ["timezone"]=>
   string(13) "Europe/Berlin"
 }
- * */
+*/
 
 $now = new DateTime('', new DateTimeZone('Asia/Seoul'));
-echo $now->format('Y-m-d H:i:s'); // 2024-06-29 23:32:30
+echo $now->format('Y-m-d H:i:s') . "\n"; // 2024-07-01 12:44:50
+echo $now->format('Y-m-d(D) H:i:s') . "\n"; // 2024-07-01(Mon) 12:44:50
 
+echo "------------ 날짜 차이 계산 ------------" . "\n";
+
+// # mktime()
+// 2024.07.02 17:50:35
+$dt1_time = mktime(17,50,35,7,2,2024);
+// 2024.06.30 12:30:22
+$dt2_time = mktime(12, 30, 22, 6, 30, 2024);
+echo $dt1_time - $dt2_time . "\n"; // 192013
+
+// # DataTime 클래스
+$dt1 = new DateTime();
+$dt2 = new DateTime("2024-06-15 12:00:00");
+
+$dt_diff = $dt1->diff($dt2);
+//var_dump($dt_diff);
+echo $dt_diff->format('%Y-%m-%d %H:%i:%s') . "\n"; // 00-0-15 22:18:18
+
+echo "------------ 타임존 설정 ------------" . "\n";
+
+echo date('Y-m-d H:i:s e') . "\n"; // 2024-07-01 10:27:11 Europe/Berlin
+
+date_default_timezone_set("Asia/Seoul");
+
+echo date('Y-m-d H:i:s e') . "\n"; // 2024-07-01 17:27:50 Asia/Seoul
+
+//print_r(timezone_identifiers_list());
+
+// # 특정 국가(한국)의 타임존만 확인
+print_r(timezone_identifiers_list(DateTimeZone::PER_COUNTRY, "KR"));
+/*
+ Array
+(
+    [0] => Asia/Seoul
+)
+ */
+
+// ! 예시
+$timestamp = mktime(0, 0, 0, 1, 8, 2022);
+
+// # 미국 뉴욕시간
+date_default_timezone_set("America/New_York");
+echo date('Y-m-d H:i:s', $timestamp) . "\n"; // 2022-01-07 10:00:00
+
+
+// # 한국 서울시간
+date_default_timezone_set("Asia/Seoul");
+echo date('Y-m-d H:i:s', $timestamp) . "\n"; // 2022-01-08 00:00:00
 
 
 
